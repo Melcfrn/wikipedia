@@ -16,7 +16,7 @@ class Extractor():
         try :
             html = requests.get(self.url).text
         except :
-            raise Exception('URL do not exist')
+            raise 'URL does not exist'
 
         return bs(html, 'html.parser')
 
@@ -59,4 +59,20 @@ class Extractor():
             raise 'Index to long'
         return html_script
 
-    
+
+## A supprimer
+
+Try = Extractor(url = "https://en.wikipedia.org/wiki/Comparison_of_FTP_server_software_packages")
+
+html = Try.get_Document()
+All = Try.getAllWikitable(soup=html)
+Parents = Try.getAllParentsWikitable(tableslist=All)
+with  open("python.txt", "w", encoding="utf-8") as file:
+    file.write(str(All))
+    file.write("  \n   ")
+    file.write("-----")
+    file.write("  \n   ")
+    file.write(str(Parents))
+    file.write("  \n   ")
+    file.write("+++++")
+    file.close()
