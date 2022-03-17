@@ -30,6 +30,8 @@ class Extractor():
             _type_: list of all tables present in the Wikipage
         """
         tableslist = soup.find_all("table",{"class":"wikitable"})
+        if tableslist == [] :
+            raise Exception('no table disponible')
         return tableslist
     
     def getAllParentsWikitable(self,tableslist) :
@@ -56,13 +58,14 @@ class Extractor():
         try : 
             html_script = list(parents[self.index])
         except :
-            raise 'Index to long'
+            raise 'Index out of range'
         return html_script
 
 
 ## A supprimer
 
-Try = Extractor(url = "https://en.wikipedia.org/wiki/Comparison_of_FTP_server_software_packages")
+
+Try = Extractor(url = "https://knsdjsd")
 
 html = Try.get_Document()
 All = Try.getAllWikitable(soup=html)
