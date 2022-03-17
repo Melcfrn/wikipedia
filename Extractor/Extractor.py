@@ -17,7 +17,7 @@ class Extractor():
             html = requests.get(self.url).text
         except :
             raise Exception('URL do not exist')
-            
+
         return bs(html, 'html.parser')
 
     def getAllWikitable(self,soup) : 
@@ -53,8 +53,10 @@ class Extractor():
         Returns:
             _type_: _description_
         """
-        if len(parents) < self.index :
-            raise Exception('Index to long')
-        return list(parents[self.index])
+        try : 
+            html_script = list(parents[self.index])
+        except :
+            raise 'Index to long'
+        return html_script
 
     
