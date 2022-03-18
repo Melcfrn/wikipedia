@@ -65,7 +65,8 @@ class Extractor():
 ## A supprimer
 
 
-Try = Extractor(url = "https://knsdjsd")
+Try = Extractor()
+
 
 html = Try.get_Document()
 All = Try.getAllWikitable(soup=html)
