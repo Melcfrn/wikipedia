@@ -74,8 +74,8 @@ from Convertor.Convertor import Convertor
 import os
 import codecs
 import numpy as np
-
-wiki = "https://en.wikipedia.org/wiki/Comparison_between_Ido_and_Novial"
+wiki = "https://en.wikipedia.org/wiki/Comparison_of_digital_SLRs"
+# wiki = "https://en.wikipedia.org/wiki/Comparison_between_Ido_and_Novial"
 header = {'User-Agent': 'Mozilla/5.0'} #Needed to prevent 403 error on Wikipedia
 Try = Extractor(wiki)
 a = Try.get_Document()
@@ -87,3 +87,20 @@ tables = Try.getAllParentsWikitable(tableslist=All)
 conv = Convertor(tables)
 sortie = conv.allTablesTo2D()
 print(sortie)
+
+j=0
+for table in sortie :
+    page=os.path.split(wiki)[1]
+    f = codecs.open('table{}{}.csv'.format(j,page), 'w',encoding='utf-8')
+    for i in table:
+        for k in i :
+            if k is None :
+                k = "   "
+        print(i)
+        rowStr=','.join(i)
+        rowStr=rowStr.replace('\n','')
+            #print(rowStr)
+        rowStr=rowStr#.encode('unicode_escape')
+        f.write(rowStr+'\n')
+    j+=1
+    f.close()
