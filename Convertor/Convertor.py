@@ -1,4 +1,11 @@
+from itertools import product
+from queue import Empty
+from urllib import request
 from bs4 import BeautifulSoup
+from Extractor.Extractor import Extractor
+import os
+import codecs
+import numpy as np
 
 class Convertor():
     def __init__(self, tables):
@@ -26,7 +33,14 @@ class Convertor():
             self.mapping_rowspans = {c: s - 1 for c, s in self.mapping_rowspans.items() if s > 1}
         return new_table
 
-    def colCounter(self, colcount):
+    def allTablesTo2D(self):
+        new_tables = list()
+        for table in self.tables:
+            new_table = self.tableTo2d(table)
+            new_tables.append(new_table)
+        return new_tables
+
+    def colCounter(self, colcount, cells):
         self.colcount = max(colcount, sum(int(c.get('colspan', 1)) or 1 \
             for c in cells[:-1]) + len(cells[-1:]) + len(self.rowspans))
         return self.colcount
@@ -37,7 +51,7 @@ class Convertor():
 
     def getRowspans(self, row, indice, table):
         cells = row.find_all(['td', 'th'], recursive=False)
-        self.colcount = self.colCounter(self.colcount)
+        self.colcount = self.colCounter(self.colcount, cells)
         rows = self.getRows(table)
         self.rowspans += [int(c.get('rowspan', 1)) or len(rows) - indice for c in cells]
         self.rowspans = [s - 1 for s in self.rowspans if s > 1]
@@ -45,12 +59,11 @@ class Convertor():
 
     def fillTable(self, indice_row, row_elem, indice_col, cell, old_table, new_table):
         indice_col += self.span_offset
-        while self.mapping_rowspans = dict().get(col, 0):
-            span_offset += 1
+        while self.mapping_rowspans.get(indice_col, 0):
+            self.span_offset += 1
             indice_col += 1
         rows = self.getRows(old_table)
         rowspan = self.mapping_rowspans[indice_col] = int(cell.get('rowspan', 1)) or len(rows) - indice_row
-        self.colcount = self.colCounter(self.colcount)
         colspan = int(cell.get('colspan', 1)) or self.colcount - indice_col
         # next column is offset by the colspan
         self.span_offset += colspan - 1
@@ -62,10 +75,10 @@ class Convertor():
         for drow, dcol in product(range(rowspan), range(colspan)):
             try:
                 if value != None :
-                    new_table[row + drow][col + dcol] = value
+                    new_table[indice_row + drow][indice_col + dcol] = value
                 else :
-                    new_table[row + drow][col + dcol] = " "
-                self.mapping_rowspans[col + dcol] = rowspan
+                    new_table[indice_row + drow][indice_col + dcol] = " "
+                self.mapping_rowspans[indice_col + dcol] = rowspan
             except IndexError:
                 # rowspan or colspan outside the confines of the table
                 pass
