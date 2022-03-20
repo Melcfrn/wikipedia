@@ -3,13 +3,13 @@ import os
 import codecs
 import re
 class Serializer():
-    
+
     def __init__(self, list_value, url, index ):
         self.list_value = list_value
         self.url = url
         self.index = index
-    
-    def getUrl(self) : 
+
+    def getUrl(self) :
         return self.url
 
     def getListValue(self):
@@ -20,19 +20,20 @@ class Serializer():
         return your_string == path
 
     def serialize(self, path = "./output/html"):
-        
+
         if self.assertPath == False:
             raise "Path Error"
 
         page=os.path.split(self.url)[1]
-        f = codecs.open('/{}-{}.csv'.format(page, self.index), 'w',encoding='utf-8')
+        f = codecs.open('{}/{}-{}.csv'.format(path, page, self.index), \
+            'w',encoding='utf-8')
         for i in self.list_value:
-            try : 
+            try :
                 rowStr=';'.join(i)
             except :
                 raise 'Double Table Error'
             rowStr=rowStr.replace('\n','')
 
             rowStr=rowStr
-            f.write(rowStr+'\n')      
+            f.write(rowStr+'\n')
         f.close()
