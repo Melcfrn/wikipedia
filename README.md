@@ -24,13 +24,13 @@ python main/main.py
 
 4. Testing:
 ```
-pytest -q main/Extractor/TestExtractor.py
+pytest -q test/TestExtractor/TestExtractor.py
 ```
 ```
-pytest -q main/Convertor/TestConvertor.py
+pytest -q test/TestConvertor/TestConvertor.py
 ```
 ```
-pytest -q main/Serializer/TestSerializer.py
+pytest -q test/TestSerializer/TestSerializer.py
 ```
 ## Challenges
 
@@ -119,7 +119,7 @@ As we can see, the cell named "e" is duplicated in the CSV form. In fact, the mu
 HTML tables can be very tricky as you can see on the [Help table](https://en.wikipedia.org/wiki/Help:Table) web page of Wikipedia.
 
 
-Moreover, as you can see at [Help table](https://en.wikipedia.org/wiki/Help:Table), tables can contain different types of data. They can be images, videos, links, or any other HTML content. In this project, we focused on making a modular application that can evolve to take into account more tables and data. In this view, we already implemented in the Java App the support for "text", "links" and "images". Unfortunately we only support "text" in our Python App.
+Moreover, as you can see at [Help table](https://en.wikipedia.org/wiki/Help:Table), tables can contain different types of data. They can be images, videos, links, or any other HTML content. In this project, we focused on making a modular application that can evolve to take into account more tables and data. In this view, we already implemented in the Java App the support for "text", "links" and "images". Unfortunately we only support "text" in our Python App and we do not manage wikitables in wikitables.
 
 ## Architecture
 The architecture of this app is <b>three</b> main parts:

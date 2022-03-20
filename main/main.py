@@ -7,13 +7,12 @@ wiki = "https://en.wikipedia.org/wiki/Comparison_(grammar)"
 header = {'User-Agent': 'Mozilla/5.0'} #Needed to prevent 403 error on Wikipedia
 Try = Extractor(wiki)
 a = Try.get_Document()
-All = Try.getAllWikitable(soup=a)
-soup = Try.getAllParentsWikitable(tableslist=All)[0]
+tables = Try.getAllWikitable(soup=a)
 
-
-tables = Try.getAllParentsWikitable(tableslist=All)
 conv = Convertor(tables)
 sortie_conv = conv.allTablesTo2D()
+print(sortie_conv[0])
+
 for i, table in enumerate(sortie_conv):
     serial = Serializer(table, wiki, i)
     serial.serialize()

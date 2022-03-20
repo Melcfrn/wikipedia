@@ -15,7 +15,7 @@ class Serializer():
     def getListValue(self):
         return self.list_value
 
-    def assertPath(path) :
+    def assertPath(self, path) :
         your_string = re.sub(r'[\\*?:"<>|]',"",path)
         return your_string == path
 
