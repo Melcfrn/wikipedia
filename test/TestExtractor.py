@@ -1,3 +1,3 @@
-# import pytest
-#
-# class TestExtractor():
+import pytest
+
+class TestExtractor():
