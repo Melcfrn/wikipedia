@@ -29,7 +29,7 @@ class Serializer():
             'w',encoding='utf-8')
         for i in self.list_value:
             try :
-                rowStr=';'.join(i)
+                rowStr=','.join(i)
             except :
                 raise 'Double Table Error'
             rowStr=rowStr.replace('\n','')

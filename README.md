@@ -24,13 +24,13 @@ python main/main.py
 
 4. Testing:
 ```
-pytest -q test/TestExtractor.py
+pytest -q main/Extractor/TestExtractor.py
 ```
 ```
-pytest -q test/TestConvertor.py
+pytest -q main/Convertor/TestConvertor.py
 ```
 ```
-pytest -q test/TestSerializer.py
+pytest -q main/Serializer/TestSerializer.py
 ```
 ## Challenges
 
@@ -38,7 +38,7 @@ Converting Wikipedia tables from HTML to CSV format is not an easy task, as choi
 
 ### First view of the problem
 
-In order to access the HTML content of Wikipedia pages, we used Jsoup. This package allows an easy way to navigate in the DOM.
+In order to access the HTML content of Wikipedia pages, we used BeautifulSoup. This package allows an easy way to navigate in the DOM.
 However, HTML tables are way more versatile than the CSV format can afford. View the example bellow
 
 <table>
@@ -117,135 +117,9 @@ However, HTML tables are way more versatile than the CSV format can afford. View
 
 As we can see, the cell named "e" is duplicated in the CSV form. In fact, the multicell can't be represented in CSV. We made the choice to just duplicate the value.
 HTML tables can be very tricky as you can see on the [Help table](https://en.wikipedia.org/wiki/Help:Table) web page of Wikipedia.
-Cells can span multiple rows and/or columns. Also, tables can be nested as far as we want. So one cell can have a table in it, and this cell can span multiple cells. This situation cannot be represented in CSV like in HTML. So we choose to duplicate rows and columns in order to have the space to fit the data and keep links between rows and columns. An example of the situation of a nested table is given below:
 
-<table>
-<tr>
-<td></td>
-<td><center>HTML</center></td>
-<td><center>Into</center></td>
-<td><center>CSV</center></td>
-</tr>
-<tr>
-<td>Code</td>
-<td>
 
-```                             
-<table class="wikitable">
-    <tr>
-        <td>a</td>
-        <td>b</td>
-        <td>c</td>
-    </tr>
-    <tr>
-        <td>e</td>
-        <td>f</td>
-        <td>g</td>
-    </tr>
-    <tr>
-        <td>d</td>
-        <td colspan=2>
-            <table class="wikitable">
-                <tr>
-                    <td>a1</td>
-                    <td>b1</td>
-                </tr>
-                <tr>
-                    <td colspan=2>c1</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>                     
-```  
-
-</td>
-
-<td rowspan="2"> <font size="20">→<font></td>
-
-<td>
-<center>
-    "a","b","b","c","c"<br>
-    "e","f","f","g","g"<br>
-    "d","a1","a1","b1","b1"<br>
-    "d","c1","c1","c1","c1"
-</center>
-</td>
-
-</tr>
-<tr>
-<td>Render</td>
-<td>
-<center>
-<table class="wikitable">
-    <tr>
-        <td>a</td>
-        <td>b</td>
-        <td>c</td>
-    </tr>
-    <tr>
-        <td>e</td>
-        <td>f</td>
-        <td>g</td>
-    </tr>
-    <tr>
-        <td>d</td>
-        <td colspan=2>
-            <table class="wikitable">
-                <tr>
-                    <td>a1</td>
-                    <td>b1</td>
-                </tr>
-                <tr>
-                    <td colspan=2>c1</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-</center>
-</td>
-
-<td>
-<center>
-<table class="wikitable">       
-    <tr>                        
-        <td>a</td>              
-        <td>b</td>
-        <td>b</td>              
-        <td>c</td>  
-        <td>c</td>              
-    </tr>
-    <tr>                        
-        <td>e</td>              
-        <td>f</td>
-        <td>f</td>              
-        <td>g</td>  
-        <td>g</td>              
-    </tr>
-    <tr>                        
-        <td>d</td>              
-        <td>a1</td>
-        <td>a1</td>              
-        <td>b1</td>  
-        <td>b1</td>              
-    </tr>
-    <tr>                        
-        <td>d</td>              
-        <td>c1</td>
-        <td>c1</td>              
-        <td>c1</td>  
-        <td>c1</td>              
-    </tr>                                        
-</table>   
-</center>
-</td>
-</tr>
-</table>
-
-So we flatten tables in order to convert them into CSV. This flattening is performed from the bottom up so that no matter how many nested tables there are, all data will be present in the right place.
-
-Moreover, as you can see at [Help table](https://en.wikipedia.org/wiki/Help:Table), tables can contain different types of data. They can be images, videos, links, or any other HTML content. In this project, we focused on making a modular application that can evolve to take into account more tables and data. In this view, we already implemented the support for "text", "links" and "images". Those types need to be converted to text somehow in order to fit CSV files. For "links" we take the "href" attribute and for "images" the "src" one that we append to the text. This behavior can easily be changed.  
+Moreover, as you can see at [Help table](https://en.wikipedia.org/wiki/Help:Table), tables can contain different types of data. They can be images, videos, links, or any other HTML content. In this project, we focused on making a modular application that can evolve to take into account more tables and data. In this view, we already implemented in the Java App the support for "text", "links" and "images". Unfortunately we only support "text" in our Python App.
 
 ## Architecture
 The architecture of this app is <b>three</b> main parts:

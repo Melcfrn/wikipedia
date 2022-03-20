@@ -75,9 +75,9 @@ class Convertor():
         for drow, dcol in product(range(rowspan), range(colspan)):
             try:
                 if value != None :
-                    new_table[indice_row + drow][indice_col + dcol] = value
+                    new_table[indice_row + drow][indice_col + dcol] = '"' + str(value) + '"'
                 else :
-                    new_table[indice_row + drow][indice_col + dcol] = " "
+                    new_table[indice_row + drow][indice_col + dcol] = '""'
                 self.mapping_rowspans[indice_col + dcol] = rowspan
             except IndexError:
                 # rowspan or colspan outside the confines of the table

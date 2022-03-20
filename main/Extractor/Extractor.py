@@ -60,23 +60,3 @@ class Extractor():
         except :
             raise 'Index out of range'
         return html_script
-
-
-## A supprimer
-# 
-#
-# Try = Extractor()
-#
-#
-# html = Try.get_Document()
-# All = Try.getAllWikitable(soup=html)
-# Parents = Try.getAllParentsWikitable(tableslist=All)
-# with  open("python.txt", "w", encoding="utf-8") as file:
-#     file.write(str(All))
-#     file.write("  \n   ")
-#     file.write("-----")
-#     file.write("  \n   ")
-#     file.write(str(Parents))
-#     file.write("  \n   ")
-#     file.write("+++++")
-#     file.close()
